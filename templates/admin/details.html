@@ -21,7 +21,7 @@
 
 <div class="container mt-5">
 
-    <a href="/admin/beneficiaires/" class="btn btn-secondary mb-3">⬅ Retour</a>
+    <a href="/dashboard/" class="btn btn-secondary mb-3">⬅ Retour</a>
 
     <div class="card shadow-lg p-4">
         <h2 class="text-center mb-4">Détails du Ménage</h2>
@@ -30,24 +30,20 @@
         <div class="section-title">Informations générales</div>
         <table class="table table-bordered">
             <tr>
-                <th>Nom du ménage</th>
-                <td>{{ menage.nom }}</td>
-            </tr>
-            <tr>
                 <th>Chef de ménage</th>
-                <td>{{ menage.chef }}</td>
+                <td>{{ menage.identite }}</td>
             </tr>
             <tr>
-                <th>Adresse</th>
-                <td>{{ menage.adresse }}</td>
+                <th>Quartier</th>
+                <td>{{ menage.village_quartier }}</td>
             </tr>
             <tr>
                 <th>Date d'enregistrement</th>
-                <td>{{ menage.date_enregistrement }}</td>
+                <td>{{ menage.date_enquete }}</td>
             </tr>
             <tr>
                 <th>Score total</th>
-                <td><span class="badge bg-success">{{ menage.score }}</span></td>
+                <td><span class="badge bg-success">{{ menage.score_total }}</span></td>
             </tr>
         </table>
 

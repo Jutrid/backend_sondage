@@ -34,8 +34,8 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Kits WASH — Admin</a>
     <div class="d-flex">
-      <a class="btn btn-sm btn-outline-light me-2" href="{% url 'admin:index' %}">Django Admin</a>
-      <a class="btn btn-sm btn-light" href="{% url 'export_menages_csv' %}">⬇️ Export CSV</a>
+      <a class="btn btn-sm btn-light me-2" href="{% url 'export_menages_csv' %}">⬇️ Export CSV</a>
+      <a class="btn btn-sm btn-danger" href="{% url 'logout' %}">Déconnexion</a>
     </div>
   </div>
 </nav>
@@ -197,7 +197,7 @@
             <td>{{ m.nom_enqueteur }}</td>
             <td>{{ m.date_enquete }}</td>
             <td>
-                <a href="{% url 'admin:application_menage_change' m.id %}" class="btn btn-sm btn-outline-primary">Détails</a>
+                <a href="{% url 'details_menage' m.id %}" class="btn btn-sm btn-outline-primary">Détails</a>
             </td>
           </tr>
           {% empty %}

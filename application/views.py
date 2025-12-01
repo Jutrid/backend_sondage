@@ -1,10 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.db.models import Count
 import csv
-from .models import Menage
+from .models import Menage, Reponse
 from django.core.paginator import Paginator
+from .serializers import MenageSerializer
+from rest_framework import generics
+from .serializers import MenageSerializer
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
+
+# Liste + Création
+class MenageListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Menage.objects.all().order_by('-id')
+    serializer_class = MenageSerializer
+
+
+# Détail + Mise à jour + Suppression
+class MenageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Menage.objects.all()
+    serializer_class = MenageSerializer
+
+@login_required(login_url='/login')
 def admin_dashboard(request):
     # filtres simples
     quartier = request.GET.get('quartier') or None
@@ -87,3 +105,34 @@ def export_menages_csv(request):
             m.niveau_vulnerabilite
         ])
     return response
+
+# --- Vue : Détail d’un ménage ---
+def details_menage(request, menage_id):
+    menage = get_object_or_404(Menage, id=menage_id)
+    reponses = Reponse.objects.filter(menage=menage).select_related('question')
+
+    return render(request, 'admin/details.html', {
+        'menage': menage,
+        'reponses': reponses
+    })
+
+def login_view(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect("admin_dashboard")  # redirige vers ta page admin
+        else:
+            return render(request, "login.html", {"error": True})
+
+    return render(request, "login.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect("login")  # redirection vers la page de connexion
+
+
+
