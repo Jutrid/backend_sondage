@@ -14,6 +14,17 @@
             margin-top: 20px;
             color: #0d6efd;
         }
+        .photo-box {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .photo-box img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #0d6efd;
+        }
     </style>
 </head>
 
@@ -23,8 +34,18 @@
 
     <a href="/dashboard/" class="btn btn-secondary mb-3">⬅ Retour</a>
 
-    <div class="card shadow-lg p-4">
+    <div class="card shadow-lg p-4 col-8 mx-auto">
         <h2 class="text-center mb-4">Détails du Ménage</h2>
+
+        <!-- PHOTO DU MENAGE / CHEF DE MENAGE -->
+        <div class="photo-box">
+            {% if menage.img %}
+                <img src="{{ menage.img.url }}" alt="Photo du ménage">
+                <p class="text-muted mt-2">📸 Photo du ménage</p>
+            {% else %}
+                <p class="text-danger">Aucune photo disponible</p>
+            {% endif %}
+        </div>
 
         <!-- Informations du ménage -->
         <div class="section-title">Informations générales</div>
@@ -38,12 +59,24 @@
                 <td>{{ menage.village_quartier }}</td>
             </tr>
             <tr>
+                <th>Aire de santé</th>
+                <td>{{ menage.air_sante }}</td>
+            </tr>
+            <tr>
+                <th>Enquêteur</th>
+                <td>{{ menage.nom_enqueteur }}</td>
+            </tr>
+            <tr>
                 <th>Date d'enregistrement</th>
                 <td>{{ menage.date_enquete }}</td>
             </tr>
             <tr>
                 <th>Score total</th>
                 <td><span class="badge bg-success">{{ menage.score_total }}</span></td>
+            </tr>
+            <tr>
+                <th>Niveau vulnérabilité</th>
+                <td>{{ menage.niveau_vulnerabilite }}</td>
             </tr>
         </table>
 

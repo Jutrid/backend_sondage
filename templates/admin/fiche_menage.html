@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Fiche du ménage</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .container {
+            width: 750px;
+            margin: auto;
+            border: 2px solid #333;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2 {
+            text-align: center;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .info {
+            margin-top: 20px;
+        }
+
+        .info p {
+            font-size: 17px;
+            margin: 5px 0;
+        }
+
+        .qrcode-box {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        /* ---- PRINT ---- */
+        @media print {
+            .no-print {
+                display: none;
+            }
+            body {
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <h2>Fiche d'identification du ménage</h2>
+
+    <div class="info">
+        <p><strong>Identité :</strong> {{ menage.identite }}</p>
+        <p><strong>Aire de Santé :</strong> {{ menage.air_sante }}</p>
+        <p><strong>Village / Quartier :</strong> {{ menage.village_quartier }}</p>
+        <p><strong>Enquêteur :</strong> {{ menage.nom_enqueteur }}</p>
+        <p><strong>Niveau de vulnérabilité :</strong> {{ menage.niveau_vulnerabilite }}</p>
+        <p><strong>Date d’enregistrement :</strong> {{ menage.date_enquete }}</p>
+    </div>
+
+    <div class="qrcode-box">
+        <h3>QR Code du ménage</h3>
+
+        <!-- QR Code généré dans la vue Django -->
+        <img src="data:image/png;base64,{{ qrcode_base64 }}" width="260">
+
+    </div>
+
+</div>
+
+<div class="no-print" style="text-align:center; margin-top:20px;">
+    <button onclick="window.print()" 
+            style="padding:10px 25px; background:#0d6efd; color:white; border:none; border-radius:5px; font-size:17px;">
+        🖨️ Imprimer la fiche
+    </button>
+</div>
+
+</body>
+</html>

@@ -36,9 +36,18 @@ urlpatterns = [
     path('', admin_dashboard, name='admin_dashboard'),
     path('dashboard/', admin_dashboard, name='admin_dashboard'),
     path('login/', views.login_view, name='login'),
+    path("menage/<int:menage_id>/fiche/", views.fiche_menage, name="fiche_menage"),
     path("logout/", views.logout_view, name="logout"),
     path('export-menages-csv/', views.export_menages_csv, name='export_menages_csv'),
     path('menage/<int:menage_id>/details/', views.details_menage, name='details_menage'),
+     path("menages/", views.liste_menages, name="liste_menages"),
+    path("menages/<int:id>/articles/", views.menage_detail_articles),
+
+    # Utilisateurs
+    path('users/', views.gestion_utilisateurs, name='gestion_utilisateurs'),
+    path('users/add/', views.ajouter_utilisateur, name='ajouter_utilisateur'),
+    path('users/edit/<int:user_id>/', views.modifier_utilisateur, name='modifier_utilisateur'),
+    path('users/delete/<int:user_id>/', views.supprimer_utilisateur, name='supprimer_utilisateur'),
 
     # --- Schéma OpenAPI ---
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),

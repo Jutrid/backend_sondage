@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% if mode == 'add' %}Ajouter{% else %}Modifier{% endif %} un utilisateur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+
+    <a href="{% url 'gestion_utilisateurs' %}" class="btn btn-secondary mb-3">⬅ Retour</a>
+
+    <div class="card p-4 shadow-lg">
+        <h3 class="mb-3">
+            {% if mode == 'add' %}➕ Ajouter un utilisateur{% else %}✏ Modifier l'utilisateur{% endif %}
+        </h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Nom d'utilisateur</label>
+                <input type="text" name="username" class="form-control"
+                       value="{{ user.username|default:'' }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Adresse Email</label>
+                <input type="email" name="email" class="form-control"
+                       value="{{ user.email|default:'' }}">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Mot de passe
+                    {% if mode == 'edit' %}
+                        <small class="text-muted">(laisser vide pour ne pas changer)</small>
+                    {% endif %}
+                </label>
+                <input type="password" name="password" class="form-control">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Groupe</label>
+                <select name="groupe" class="form-select">
+                    <option value="">-- Aucun groupe --</option>
+
+                    {% for g in groupes %}
+                        <option value="{{ g.id }}"
+                            {% if user and g in user.groups.all %}selected{% endif %}>
+                            {{ g.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button class="btn btn-success w-100">
+                {% if mode == 'add' %}Créer{% else %}Enregistrer{% endif %}
+            </button>
+
+        </form>
+
+    </div>
+</div>
+
+</body>
+</html>
