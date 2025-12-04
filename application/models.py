@@ -10,7 +10,7 @@ class Menage(models.Model):
         editable=False            # empêche la modification manuelle
     )
     village_quartier = models.CharField(max_length=255)
-    numero_menage = models.CharField(max_length=50)
+    numero_menage = models.CharField(max_length=50, null=True, blank=True)
     date_enquete = models.DateField()
     nom_enqueteur = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     latitude = models.FloatField(null=True, blank=True)
