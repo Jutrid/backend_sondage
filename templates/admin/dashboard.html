@@ -95,7 +95,7 @@
                 </div>
 
                 <div class="col-md-2">
-                    <button class="btn btn-danger mt-4 w-100">Filtrer</button>
+                    <button class="btn btn-primary mt-4 w-100">Filtrer</button>
                 </div>
             </form>
         </div>
@@ -157,12 +157,12 @@
                         <td>{{ m.nom_enqueteur }}</td>
                         <td>{{ m.score_total }}</td>
                         <td>
-                        {% if m.niveau_vulnerabilite == 'Moins vulnérable' %}
-                        <span class='badge bg-success' >{{ m.niveau_vulnerabilite }}</span>
-                        {% elif m.niveau_vulnerabilite == 'Vulnérable' %}
-                        <span class='badge bg-warning' >{{ m.niveau_vulnerabilite }}</span>
+                        {% if m.voir_vulnerabilite == 'Moins vulnérable' %}
+                        <span class='badge bg-success' >{{ m.voir_vulnerabilite }}</span>
+                        {% elif m.voir_vulnerabilite == 'Vulnérable' %}
+                        <span class='badge bg-warning' >{{ m.voir_vulnerabilite }}</span>
                         {% else %}
-                        <span class='badge bg-danger' >{{ m.niveau_vulnerabilite }}</span>
+                        <span class='badge bg-danger' >{{ m.voir_vulnerabilite }}</span>
                         {% endif %}
                         </td>
 
@@ -227,7 +227,7 @@
     const stats = {{ stats_vulnerabilite_json|safe }};
 
     // Initialisation de la map
-    const map = L.map('map').setView([0.5, 25], 8);
+    const map = L.map('map').setView([0.518, 25.18], 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 18

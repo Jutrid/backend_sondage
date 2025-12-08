@@ -32,6 +32,7 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/menages/', views.MenageListCreateAPIView.as_view(), name='menage-list-create'),
+    path('api/distributions/', views.DistributionListCreateAPIView.as_view(), name='distribution-list-create'),
     path('api/menages/<int:pk>/', views.MenageDetailAPIView.as_view(), name='menage-detail'),
     path('', admin_dashboard, name='admin_dashboard'),
     path('dashboard/', admin_dashboard, name='admin_dashboard'),

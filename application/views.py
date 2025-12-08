@@ -3,11 +3,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.db.models import Count
 import csv
-from .models import Menage, Reponse
+from .models import Menage, Reponse, Distribution
 from django.core.paginator import Paginator
 from .serializers import MenageSerializer
 from rest_framework import generics
-from .serializers import MenageSerializer
+from .serializers import MenageSerializer, DistributionSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -27,8 +27,13 @@ class MenageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Menage.objects.all()
     serializer_class = MenageSerializer
 
+# Liste + Création
+class DistributionListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Distribution.objects.all().order_by('-id')
+    serializer_class = DistributionSerializer
+
 @login_required(login_url='/login')
-def admin_dashboard(request):
+def admin_dashboard(request):        
     # Récupération des filtres GET
     air_filter = request.GET.get("air_sante", "")
     enqueteur_filter = request.GET.get("enqueteur", "")
@@ -36,6 +41,16 @@ def admin_dashboard(request):
 
     # Query de base
     menages = Menage.objects.all()
+    for menage in menages:
+        if menage.score_total >= 75:
+            menage.niveau_vulnerabilite = "Très vulnérable"
+            menage.save() 
+        elif menage.score_total >= 45:
+            menage.niveau_vulnerabilite = "Vulnérable"
+            menage.save() 
+        else:
+            menage.niveau_vulnerabilite = "Moins vulnérable"
+            menage.save()
 
     # Filtre Aire de Santé
     if air_filter:

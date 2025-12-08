@@ -40,11 +40,24 @@ class Menage(models.Model):
         ('Moins vulnérable', 'Moins vulnérable'),
     ], default='Moins vulnérable')
 
+    def voir_vulnerabilite(self):
+        if self.score_total >= 75:
+            self.niveau_vulnerabilite = "Très vulnérable"
+            self.save()
+            return "Très vulnérable"
+        elif self.score_total >= 45:
+            self.niveau_vulnerabilite = "Vulnérable"
+            self.save()
+            return "Vulnérable"
+        else:
+            self.niveau_vulnerabilite = "Moins vulnérable"
+            self.save()
+            return "Moins vulnérable"
+
     def __str__(self):
         return f"{self.identite} - {self.village_quartier} #{self.numero_menage}"
 
     
-
 class Question(models.Model):
     texte = models.CharField(max_length=255)
     poids = models.IntegerField(default=0)
@@ -61,11 +74,15 @@ class Reponse(models.Model):
     def __str__(self):
         return f"Réponse de {self.menage.identite} à '{self.question.texte}'"
 
-class ArticleOffert(models.Model):
-    menage = models.ForeignKey(Menage, on_delete=models.CASCADE, related_name="articles_offerts")
+class Articles(models.Model):
     nom_article = models.CharField(max_length=200)
     quantite = models.PositiveIntegerField(default=1)
-    date_attribution = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.nom_article} x{self.quantite}"
+
+class Distribution(models.Model):
+    menage_uuid = models.UUIDField(max_length=50, null=True, blank=True)
+    date_distribution = models.DateTimeField(auto_now_add=True)
+    fournisseurid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="offres_fournies")
+    items = models.ManyToManyField(Articles, related_name="offres")
