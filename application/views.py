@@ -7,7 +7,7 @@ from .models import Menage, Reponse, Distribution
 from django.core.paginator import Paginator
 from .serializers import MenageSerializer
 from rest_framework import generics
-from .serializers import MenageSerializer, DistributionSerializer
+from .serializers import MenageSerializer, DistributionSerializer, ArticlesSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -31,6 +31,10 @@ class MenageDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
 class DistributionListCreateAPIView(generics.ListCreateAPIView):
     queryset = Distribution.objects.all().order_by('-id')
     serializer_class = DistributionSerializer
+
+class ArticlesListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Menage.objects.all().order_by('-id')
+    serializer_class = ArticlesSerializer
 
 @login_required(login_url='/login')
 def admin_dashboard(request):        
@@ -195,7 +199,8 @@ def fiche_menage(request, menage_id):
     # Texte encodé dans le QR (uuid et niveau)
     qr_data = {
         "uuid": str(menage.uuid),
-        "niveauBesoin": v
+        "niveauBesoin": v,
+        "identite": menage.identite
     }
     qr_text = json.dumps(qr_data, ensure_ascii=False)
 

@@ -76,13 +76,20 @@ class Reponse(models.Model):
 
 class Articles(models.Model):
     nom_article = models.CharField(max_length=200)
-    quantite = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"{self.nom_article} x{self.quantite}"
+    
+class Besoin(models.Model):
+    menage = models.ForeignKey(Menage, on_delete=models.CASCADE, related_name="besoins")
+    article = models.ForeignKey(Articles, on_delete=models.CASCADE)
+    quantite = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.article.nom_article} x{self.quantite} pour {self.menage.identite}"
 
 class Distribution(models.Model):
     menage_uuid = models.UUIDField(max_length=50, null=True, blank=True)
     date_distribution = models.DateTimeField(auto_now_add=True)
     fournisseurid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="offres_fournies")
-    items = models.ManyToManyField(Articles, related_name="offres")
+    items = models.ManyToManyField(Besoin, related_name="offres", null=True, blank=True)
