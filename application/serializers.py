@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Menage, Distribution, Articles
+from .models import Menage, Distribution, Articles, Bouquets, Besoin
 
 class MenageSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,8 +11,12 @@ class DistributionSerializer(serializers.ModelSerializer):
         model = Distribution
         fields = '__all__'
 
-class ArticlesSerializer(serializers.ModelSerializer):
+class BesoinSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Articles
+        model = Besoin
         fields = '__all__'
 
+class BouquetsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bouquets
+        fields = '__all__'

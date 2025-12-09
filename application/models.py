@@ -78,18 +78,33 @@ class Articles(models.Model):
     nom_article = models.CharField(max_length=200)
 
     def __str__(self):
-        return f"{self.nom_article} x{self.quantite}"
+        return f"{self.nom_article}"
     
 class Besoin(models.Model):
-    menage = models.ForeignKey(Menage, on_delete=models.CASCADE, related_name="besoins")
     article = models.ForeignKey(Articles, on_delete=models.CASCADE)
     quantite = models.IntegerField()
 
     def __str__(self):
-        return f"{self.article.nom_article} x{self.quantite} pour {self.menage.identite}"
+        return f"{self.article.nom_article} x{self.quantite}"
+
+class Bouquets(models.Model):
+    niveau = models.CharField(max_length=50, choices=[
+        (1, 'Très vulnérable'),
+        (2, 'Vulnérable'),
+        (3, 'Moins vulnérable'),
+    ])
+    description = models.CharField(max_length=255)
+    besoins = models.ManyToManyField(Besoin, related_name="bouquets")
+
+    def __str__(self):
+        return f"Bouquet {self.niveau} - {self.description}"
 
 class Distribution(models.Model):
     menage_uuid = models.UUIDField(max_length=50, null=True, blank=True)
     date_distribution = models.DateTimeField(auto_now_add=True)
     fournisseurid = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="offres_fournies")
-    items = models.ManyToManyField(Besoin, related_name="offres", null=True, blank=True)
+    items = models.ManyToManyField(Bouquets, related_name="offres", null=True, blank=True)
+
+    def __str__(self):
+        return f"Distribution to {self.menage_uuid} on {self.date_distribution.strftime('%Y-%m-%d %H:%M:%S')}"
+    

@@ -31,10 +31,15 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # API endpoints
     path('api/menages/', views.MenageListCreateAPIView.as_view(), name='menage-list-create'),
-    path('api/distributions/', views.DistributionListCreateAPIView.as_view(), name='distribution-list-create'),
-    path('api/articles/', views.ArticlesListCreateAPIView.as_view(), name='articles-list-create'),
     path('api/menages/<int:pk>/', views.MenageDetailAPIView.as_view(), name='menage-detail'),
+    path('api/distributions/', views.DistributionListCreateAPIView.as_view(), name='distribution-list-create'),
+    path('api/besoins/', views.BesoinListCreateAPIView.as_view(), name='articles-list-create'),
+    path('api/bouquets/', views.BouquetsListCreateAPIView.as_view(), name='bouquets-list-create'),
+
+    # Admin and user views
     path('', admin_dashboard, name='admin_dashboard'),
     path('dashboard/', admin_dashboard, name='admin_dashboard'),
     path('login/', views.login_view, name='login'),
@@ -42,7 +47,7 @@ urlpatterns = [
     path("logout/", views.logout_view, name="logout"),
     path('export-menages-csv/', views.export_menages_csv, name='export_menages_csv'),
     path('menage/<int:menage_id>/details/', views.details_menage, name='details_menage'),
-     path("menages/", views.liste_menages, name="liste_menages"),
+    path("menages/", views.liste_menages, name="liste_menages"),
     path("menages/<int:id>/articles/", views.menage_detail_articles),
 
     # Utilisateurs

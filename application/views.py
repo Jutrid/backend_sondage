@@ -3,11 +3,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.db.models import Count
 import csv
-from .models import Menage, Reponse, Distribution
+from .models import Menage, Reponse, Distribution, Bouquets, Besoin
 from django.core.paginator import Paginator
 from .serializers import MenageSerializer
 from rest_framework import generics
-from .serializers import MenageSerializer, DistributionSerializer, ArticlesSerializer
+from .serializers import MenageSerializer, DistributionSerializer, BesoinSerializer, BouquetsSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -32,9 +32,13 @@ class DistributionListCreateAPIView(generics.ListCreateAPIView):
     queryset = Distribution.objects.all().order_by('-id')
     serializer_class = DistributionSerializer
 
-class ArticlesListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Menage.objects.all().order_by('-id')
-    serializer_class = ArticlesSerializer
+class BesoinListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Besoin.objects.all().order_by('-id')
+    serializer_class = BesoinSerializer
+
+class BouquetsListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Bouquets.objects.all().order_by('-id')
+    serializer_class = BouquetsSerializer
 
 @login_required(login_url='/login')
 def admin_dashboard(request):        
