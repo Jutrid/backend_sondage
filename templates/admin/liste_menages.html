@@ -34,20 +34,22 @@
                 <th>Identité</th>
                 <th>Quartier</th>
                 <th>Date Enquête</th>
+                <th>Date distribution</th>
                 <th>Score</th>
                 <th>Actions</th>
             </tr>
         </thead>
 
         <tbody>
-            {% for m in menages %}
+            {% for d in distribution %}
             <tr>
-                <td>{{ m.identite }}</td>
-                <td>{{ m.village_quartier }}</td>
-                <td>{{ m.date_enquete }}</td>
-                <td><span class="badge bg-success">{{ m.score_total }}</span></td>
+                <td>{{ d.menage.identite }}</td>
+                <td>{{ d.menage.village_quartier }}</td>
+                <td>{{ d.menage.date_enquete }}</td>
+                <td>{{ d.date_distribution }}</td>
+                <td><span class="badge bg-success">{{ d.menage.score_total }}</span></td>
                 <td>
-                    <a href="/menages/{{ m.id }}/articles/" class="btn btn-sm btn-primary">
+                    <a href="/menages/{{ d.id }}/articles/" class="btn btn-sm btn-primary">
                         Voir Articles Offerts
                     </a>
                 </td>

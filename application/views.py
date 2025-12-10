@@ -3,11 +3,11 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
 from django.db.models import Count
 import csv
-from .models import Menage, Reponse, Distribution, Bouquets, Besoin
+from .models import Menage, Reponse, Distribution, Bouquets, Besoin, Articles, ItemDistribution
 from django.core.paginator import Paginator
 from .serializers import MenageSerializer
 from rest_framework import generics
-from .serializers import MenageSerializer, DistributionSerializer, BesoinSerializer, BouquetsSerializer
+from .serializers import MenageSerializer, DistributionSerializer, BesoinSerializer, BouquetsSerializer, ArticlesSerializer
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
@@ -15,6 +15,9 @@ import qrcode
 import base64
 from io import BytesIO
 from django.contrib import messages
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 # Liste + Création
 class MenageListCreateAPIView(generics.ListCreateAPIView):
@@ -39,6 +42,18 @@ class BesoinListCreateAPIView(generics.ListCreateAPIView):
 class BouquetsListCreateAPIView(generics.ListCreateAPIView):
     queryset = Bouquets.objects.all().order_by('-id')
     serializer_class = BouquetsSerializer
+
+class ArticlesListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Articles.objects.all().order_by('-id')
+    serializer_class = ArticlesSerializer
+
+class DistributionCreateView(APIView):
+    def post(self, request):
+        serializer = DistributionSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Distribution enregistrée"}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @login_required(login_url='/login')
 def admin_dashboard(request):        
@@ -299,14 +314,16 @@ def supprimer_utilisateur(request, user_id):
     return redirect("gestion_utilisateurs")
 
 def liste_menages(request):
-    menages = Menage.objects.all().order_by("-id")
-    return render(request, "admin/liste_menages.html", {"menages": menages})
+    distribution = Distribution.objects.all().order_by("-id")
+    print(distribution)
+    return render(request, "admin/liste_menages.html", {"distribution": distribution})
 
 def menage_detail_articles(request, id):
-    menage = get_object_or_404(Menage, id=id)
-    articles = menage.articles_offerts.all()
+    distribution = get_object_or_404(Distribution, id=id)
+    items = ItemDistribution.objects.filter(distribution=distribution)
+    print(items)
     return render(request, "admin/detail_articles.html", {
-        "menage": menage,
-        "articles": articles
+        "distribution": distribution,
+        "items": items
     })
 

@@ -35,9 +35,11 @@ urlpatterns = [
     # API endpoints
     path('api/menages/', views.MenageListCreateAPIView.as_view(), name='menage-list-create'),
     path('api/menages/<int:pk>/', views.MenageDetailAPIView.as_view(), name='menage-detail'),
-    path('api/distributions/', views.DistributionListCreateAPIView.as_view(), name='distribution-list-create'),
+    # path('api/distributions/', views.DistributionListCreateAPIView.as_view(), name='distribution-list-create'),
+    path("api/distribution/", views.DistributionCreateView.as_view()),
     path('api/besoins/', views.BesoinListCreateAPIView.as_view(), name='articles-list-create'),
     path('api/bouquets/', views.BouquetsListCreateAPIView.as_view(), name='bouquets-list-create'),
+    path('api/articles/', views.ArticlesListCreateAPIView.as_view(), name='articles-list-create'),
 
     # Admin and user views
     path('', admin_dashboard, name='admin_dashboard'),

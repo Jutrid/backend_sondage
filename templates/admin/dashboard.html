@@ -149,7 +149,7 @@
                 <tbody>
                     {% for m in menages %}
                     <tr>
-                        <td>{{ m.id }}</td>
+                        <td>{{ forloop.counter }}</td>
                         <td>{{ m.identite }}</td>
                         <td>{{ m.village_quartier }}</td>
                         <td>{{ m.air_sante }}</td>

@@ -30,36 +30,34 @@
         <table class="table table-bordered">
             <tr>
                 <th>Chef de ménage</th>
-                <td>{{ menage.identite }}</td>
+                <td>{{ distribution.menage.identite }}</td>
             </tr>
             <tr>
                 <th>Quartier</th>
-                <td>{{ menage.village_quartier }}</td>
+                <td>{{ distribution.menage.village_quartier }}</td>
             </tr>
             <tr>
                 <th>Score</th>
-                <td><span class="badge bg-success">{{ menage.score_total }}</span></td>
+                <td><span class="badge bg-success">{{ distribution.menage.score_total }}</span></td>
             </tr>
         </table>
 
         <h4 class="mt-4">📦 Articles reçus</h4>
 
-        {% if articles %}
+        {% if items %}
         <table class="table table-striped table-hover">
             <thead class="table-primary">
                 <tr>
                     <th>Article</th>
                     <th>Quantité</th>
-                    <th>Date</th>
                 </tr>
             </thead>
 
             <tbody>
-                {% for art in articles %}
+                {% for item in items %}
                 <tr>
-                    <td>{{ art.nom_article }}</td>
-                    <td>{{ art.quantite }}</td>
-                    <td>{{ art.date_attribution }}</td>
+                    <td>{{ item.article }}</td>
+                    <td>{{ item.quantite }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
